@@ -95,8 +95,8 @@ If you find this work is useful for your research, please consider citing:
    @article{PLACEHOLDER,
      title={Towards Robust Video Object Segmentation with Adaptive Object Calibration},
      author={Xu, Xiaohao and Wang, Jinglu and Ming, Xiang and Lu, Yan},
-     journal={arXiv preprint arXiv:2112.02853},
-     year={2021}
+     journal={ACM Multimedia},
+     year={2022}
    }
 ```  
 
