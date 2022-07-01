@@ -164,8 +164,7 @@ If you find this work is useful for your research, please consider citing:
 ## Q&A
 
 ## Acknowledgement ❤️
-Firstly, the author would like to thank Rex for his insightful viewpoints about VOS during e-mail discussion!
-Also, this work is built upon CFBI. Thanks to the author of CFBI to release such a wonderful code repo for further work to build upon!
+This work is built upon CFBI. Thanks to the author of CFBI to release such a wonderful code repo for further work to build upon!
 
 ## Welcome to comments and discussions!!
 Xiaohao Xu: <xxh11102019@outlook.com>
