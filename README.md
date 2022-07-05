@@ -1,13 +1,14 @@
 # Towards Robust Video Object Segmentation with Adaptive Object Calibration (ACM Multimedia 2022)
 
 
-Preview version paper of this work is available at [Arxiv]() [Please stay tuned.]
+Preview version paper of this work is available at [Arxiv](https://arxiv.org/abs/2207.00887).
 
 Qualitative results and comparisons with previous SOTAs are available at [YouTube](https://www.youtube.com/watch?v=3F6n7tcwWkA).
 
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
+- 2022.7.5: Our ArXiv-version paper is available.
 - 2022.7.1: Repo init. Please stay tuned~
 ```
 ---
