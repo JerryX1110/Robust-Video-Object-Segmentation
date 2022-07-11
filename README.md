@@ -8,6 +8,7 @@ Qualitative results and comparisons with previous SOTAs are available at [YouTub
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
+- 2022.7.10: Add future works towards robust VOS!
 - 2022.7.5: Our ArXiv-version paper is available.
 - 2022.7.1: Repo init. Please stay tuned~
 ```
@@ -22,7 +23,7 @@ Semi-supervised video object segmentation (VOS) aims at segmenting objects in al
 
 Towards **robust VOS**, the key insight is to calibrate the representation and mask of each specific object to be expressive and discriminative. Accordingly, we propose a new deep network, which can adaptively construct object representations and calibrate object masks to achieve stronger robustness.
 
-First, we construct the object representations by applying an **adaptive object proxy (AOP) aggregation** method, where the proxies represent arbitrary-shaped segments at multi-levels for reference. 
+First, we construct the object representations by applying an **adaptive object proxy (AOP) aggregation** method, where the proxies represent arbitrary-shaped segments **via clustering** at multi-levels for reference. 
 
 Then, prototype masks are initially generated from the reference-target correlations based on AOP.
 Afterwards, such proto-masks are further calibrated through network modulation, conditioning on the object proxy representations.
@@ -81,9 +82,10 @@ A more light-weight version can be created by modified the [Dockerfile](https://
 
 
 ## Limitation & Directions for further exploration towards Robust VOS!
-
-* More diverse perturbation/corruption types
-* Adversial attack and defence for VOS models
+* Extension of the proposed clustering-based adaptive proxy representation to other dense-tracking tasks in a more efficient and robust way
+* Leverage the robust layered representation, i.e., intermediate masks, for robust mask calibration in other segmentation tasks
+* More diverse perturbation/corruption types can be studied for video segmentation tasks like VOS and VIS
+* Adversial attack and defence for VOS models is still an open question for further exploration
 * VOS model robustness verification and theoretical analysis
 * Model enhancement from the perspective of data management
 
@@ -93,7 +95,7 @@ A more light-weight version can be created by modified the [Dockerfile](https://
 If you find this work is useful for your research, please consider citing:
 
  ```latex
-   @article{PLACEHOLDER,
+   @article{xu2022towards,
      title={Towards Robust Video Object Segmentation with Adaptive Object Calibration},
      author={Xu, Xiaohao and Wang, Jinglu and Ming, Xiang and Lu, Yan},
      journal={ACM Multimedia},
