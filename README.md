@@ -14,7 +14,24 @@ Qualitative results and comparisons with previous SOTAs are available at [YouTub
 ```
 ---
 
+## Motivation for Robust Video Object Segmentation
 
+<img width="527" alt="截屏2022-07-11 13 01 56" src="https://user-images.githubusercontent.com/65257938/178192237-96e9d50e-460c-4209-bb80-2d0dcf610160.png">
+
+
+## Pipeline
+
+<img width="1101" alt="截屏2022-07-11 13 00 17" src="https://user-images.githubusercontent.com/65257938/178192065-6bd4cfad-184b-436c-850a-708177acd0eb.png">
+
+### Adaptive Object Proxy Representation (Component1)
+
+
+<img width="600" alt="截屏2022-07-11 13 05 05" src="https://user-images.githubusercontent.com/65257938/178192541-3d3c8a66-95c4-45e0-8a11-35337b28a412.png">
+
+### Object Mask Calibration (Component2)
+
+
+<img width="564" alt="截屏2022-07-11 13 04 23" src="https://user-images.githubusercontent.com/65257938/178192475-476835a3-40f8-47f4-a0f9-2da103a96a63.png">
 
 ## Abstract
 In the booming video era, video segmentation attracts increasing research attention in the multimedia community.
