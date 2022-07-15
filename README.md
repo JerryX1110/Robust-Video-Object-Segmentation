@@ -132,6 +132,8 @@ If you find this work is useful for your research, please consider citing:
 ## Related Works in VOS
 **Semisupervised video object segmentation repo/paper link:**
 
+**XMEM [ECCV 2022]**:<https://github.com/hkchengrex/XMem>
+
 **QDMN [ECCV 2022]**:<https://github.com/workforai/QDMN>
 
 **GSFM [ECCV 2022]**:<https://github.com/workforai/GSFM>
