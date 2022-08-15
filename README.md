@@ -132,6 +132,8 @@ If you find this work is useful for your research, please consider citing:
 ## Related Works in VOS
 **Semisupervised video object segmentation repo/paper link:**
 
+**BATMAN [ECCV 2022 Oral]**:<https://arxiv.org/pdf/2208.01159.pdf>
+
 **XMEM [ECCV 2022]**:<https://github.com/hkchengrex/XMem>
 
 **TBD [ECCV 2022]**:<https://github.com/suhwan-cho/TBD>
