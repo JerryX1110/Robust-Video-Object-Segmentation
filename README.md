@@ -1,13 +1,13 @@
 # Towards Robust Video Object Segmentation with Adaptive Object Calibration (ACM Multimedia 2022)
 
 
-Preview version paper of this work is available at [Arxiv](https://arxiv.org/abs/2207.00887).
+Preview version **paper** of this work is available at [Arxiv](https://arxiv.org/abs/2207.00887).
 
-The conference poster is available at [this github repo](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/blob/main/figs/mm22_345_poster_a0.pdf).
+The conference **poster** is available at [this github repo](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/blob/main/figs/mm22_345_poster_a0.pdf).
 
- Long paper presentation video is available at [GoogleDrive](https://drive.google.com/drive/folders/18q0eWTB5lXSkZUHOuBfyQO2LbIdTJof5?usp=sharing) and [YouTube](https://youtu.be/tFMfZ4NATrw).
+ Long paper **presentation video** is available at [GoogleDrive](https://drive.google.com/drive/folders/18q0eWTB5lXSkZUHOuBfyQO2LbIdTJof5?usp=sharing) and [YouTube](https://youtu.be/tFMfZ4NATrw).
 
-Qualitative results and comparisons with previous SOTAs are available at [YouTube](https://www.youtube.com/watch?v=3F6n7tcwWkA).
+**Qualitative results and comparisons** with previous SOTAs are available at [YouTube](https://www.youtube.com/watch?v=3F6n7tcwWkA).
 
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
