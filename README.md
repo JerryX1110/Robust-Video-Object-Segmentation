@@ -3,7 +3,7 @@
 
 Preview version paper of this work is available at [Arxiv](https://arxiv.org/abs/2207.00887).
 
-The poster is available at [this github repo]().
+The conference poster is available at [this github repo](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/blob/main/figs/mm22_345_poster_a0.pdf).
 
  Long paper presentation video is available at [GoogleDrive](https://drive.google.com/drive/folders/18q0eWTB5lXSkZUHOuBfyQO2LbIdTJof5?usp=sharing) and [YouTube](https://youtu.be/tFMfZ4NATrw).
 
