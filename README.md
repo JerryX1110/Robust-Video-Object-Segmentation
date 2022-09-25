@@ -3,6 +3,8 @@
 
 Preview version paper of this work is available at [Arxiv](https://arxiv.org/abs/2207.00887).
 
+The poster is available at [this github repo]().
+
  Long paper presentation video is available at [GoogleDrive](https://drive.google.com/drive/folders/18q0eWTB5lXSkZUHOuBfyQO2LbIdTJof5?usp=sharing) and [YouTube](https://youtu.be/tFMfZ4NATrw).
 
 Qualitative results and comparisons with previous SOTAs are available at [YouTube](https://www.youtube.com/watch?v=3F6n7tcwWkA).
@@ -10,6 +12,7 @@ Qualitative results and comparisons with previous SOTAs are available at [YouTub
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
+- 2022.9.25：Add the poster of this work~
 - 2022.8.27: Add presentation video and PPT for this work~
 - 2022.7.10: Add future works towards robust VOS!
 - 2022.7.5: Our ArXiv-version paper is available.
