@@ -105,17 +105,8 @@ def _nn_features_per_object_for_chunk_cluster(
         nn_features: A float32 tensor of nearest neighbor features of shape
           [m_chunk, n_objects, n_chunk].
     """
-    #print("reference_embeddings.size()",reference_embeddings.size())
-    #print("ref_square.size()",ref_square.size())
-    #print("query_embeddings.size()",query_embeddings.size())
-    #print("query_square.size()",query_square.size())
 
     dists = _flattened_pairwise_distances(reference_embeddings, ref_square, query_embeddings, query_square)
-    """
-    dists = (torch.unsqueeze(dists, 1) +
-            torch.unsqueeze(wrong_label_mask, 0) *
-           WRONG_LABEL_PADDING_DISTANCE)
-    """
     dists = torch.unsqueeze(dists, 1)
     features, _ = torch.min(dists, 2, keepdim=True)
     return features
@@ -135,14 +126,7 @@ def _nn_features_per_object_for_chunk_proxy(
           [m_chunk, n_objects, n_chunk].
     """
 
-    #reference_embeddings_key = reference_embeddings
-    #query_embeddings_key = query_embeddings
     dists = _flattened_pairwise_distances(reference_embeddings, ref_square, query_embeddings, query_square)
-    #print("dists",dists.size())
-    #dists = (torch.unsqueeze(dists, 1))
-    
-    #features, _ = torch.min(dists, 2, keepdim=True)
-    #print("minfeatures",features.size())
     return dists
 
 
@@ -166,10 +150,6 @@ def _nearest_neighbor_features_per_object_in_chunks_proxy(
     feature_dim, embedding_dim = query_embeddings_flat.size()
     chunk_size = int(np.ceil(float(feature_dim) / n_chunks))
     ref_square = reference_embeddings_flat.pow(2).sum(1) #.unsqueeze(0) #
-    #reference_embeddings_flat = reference_embeddings_flat.unsqueeze(0)
-    #print("reference_embeddings_flat.size()",reference_embeddings_flat.size())
-    #print("ref_square.size()",ref_square.size())
-
     query_square = query_embeddings_flat.pow(2).sum(1)
 
     all_features = []
@@ -269,7 +249,6 @@ def _nearest_neighbor_features_per_object_in_chunks_cluster(
 
     feature_dim, embedding_dim = query_embeddings_flat.size()
     chunk_size = int(np.ceil(float(feature_dim) / n_chunks))
-    #ref_square = reference_embeddings_flat.pow(2).sum(1)
     query_square = query_embeddings_flat.pow(2).sum(1)
 
     right_label_mask = reference_labels_flat > 0.9
@@ -366,17 +345,6 @@ def global_matching_proxy(
         nn_features: [1, ori_height, ori_width, n_objects, feature_dim].
     """
     
-    #assert (reference_embeddings.size()[:2] == reference_labels.size()[:2])
-
-    #print("global_matching_proxy")
-    #print("reference_embeddings",reference_embeddings.size())
-    #print("query_embeddings",query_embeddings.size())
-    #print("reference_labels",reference_labels.size())
-    ##
-    # reference_embeddings torch.Size([3, 100])
-    # query_embeddings torch.Size([117, 117, 100])
-    # reference_labels torch.Size([117, 117, 3])
-
     if use_float16:
         query_embeddings = query_embeddings.half()
         reference_embeddings = reference_embeddings.half()
@@ -396,8 +364,6 @@ def global_matching_proxy(
 
 
     reference_labels_flat = reference_labels.view(-1, obj_nums)
-
-    #reference_embeddings = reference_embeddings.permute(1,0)
     query_embeddings_flat = query_embeddings.view(-1, embedding_dim)
 
     all_ref_fg = torch.sum(reference_labels_flat, dim=1, keepdim=True) > 0.9
@@ -689,13 +655,6 @@ def global_matching(
     reference_embeddings_flat = torch.masked_select(reference_embeddings_flat, 
         all_ref_fg.expand(-1, embedding_dim)).view(-1, embedding_dim)
 
-
-
-    #print("reference_embeddings_flat.size()",reference_embeddings_flat.size())
-    #print("query_embeddings_flat.size()",query_embeddings_flat.size())
-    #print("reference_labels_flat.size()",reference_labels_flat.size())
-
-
     nn_features = _nearest_neighbor_features_per_object_in_chunks(
         reference_embeddings_flat, query_embeddings_flat, reference_labels_flat,
         n_chunks)
@@ -844,9 +803,6 @@ def global_matching_for_eval(
         nn_features_reshape = nn_features_reshape.float()
     return nn_features_reshape
 
-
-
-# TODO
 def global_matching_for_eval_proxy(
     all_reference_embeddings, query_embeddings, all_reference_labels,
     n_chunks=20, dis_bias=0., ori_size=None, atrous_rate=1, use_float16=True, atrous_obj_pixel_num=0):
@@ -873,8 +829,6 @@ def global_matching_for_eval_proxy(
     Returns:
         nn_features: [n_query_images, ori_height, ori_width, n_objects, feature_dim].
     """
-    #print("type(all_reference_embeddings)",type(all_reference_embeddings))
-    #print("all_reference_embeddings.size()",all_reference_embeddings.size())
 
     h, w, embedding_dim = query_embeddings.size()
     obj_nums = all_reference_labels[0].size(2)
@@ -882,105 +836,17 @@ def global_matching_for_eval_proxy(
     all_reference_labels_flat = []
     ref_num = len(all_reference_labels)
     n_chunks *= ref_num
-    """
-    if atrous_obj_pixel_num > 0:
-        if atrous_rate > 1:
-            h_pad = (atrous_rate - h % atrous_rate) % atrous_rate
-            w_pad = (atrous_rate - w % atrous_rate) % atrous_rate
-            selected_points = torch.zeros(h + h_pad, w + w_pad, device=query_embeddings.device)
-            selected_points = selected_points.view((h + h_pad) // atrous_rate, atrous_rate, 
-                                                   (w + w_pad) // atrous_rate, atrous_rate)
-            selected_points[:, 0, :, 0] = 1.
-            selected_points = selected_points.view(h + h_pad, w + w_pad, 1)[:h, :w]
 
-        for reference_embeddings, reference_labels, idx in zip(all_reference_embeddings, all_reference_labels, range(ref_num)):
-            if atrous_rate > 1:
-                is_big_obj = reference_labels.sum(dim=(0, 1)) > (atrous_obj_pixel_num * atrous_rate ** 2)
-                reference_labels[:, :, is_big_obj] = reference_labels[:, :, is_big_obj] * selected_points
-
-            reference_embeddings_flat = reference_embeddings.view(-1, embedding_dim)
-            reference_labels_flat = reference_labels.view(-1, obj_nums)
-
-            all_reference_embeddings_flat.append(reference_embeddings_flat)
-            all_reference_labels_flat.append(reference_labels_flat)
-            
-        reference_embeddings_flat = torch.cat(all_reference_embeddings_flat, dim=0)
-        reference_labels_flat = torch.cat(all_reference_labels_flat, dim=0)
-    else:
-        if ref_num == 1:
-            reference_embeddings, reference_labels = all_reference_embeddings[0], all_reference_labels[0]
-            if atrous_rate > 1:
-                h_pad = (atrous_rate - h % atrous_rate) % atrous_rate
-                w_pad = (atrous_rate - w % atrous_rate) % atrous_rate
-                if h_pad > 0  or w_pad > 0:
-                    reference_embeddings = F.pad(reference_embeddings, (0, 0, 0, w_pad, 0, h_pad))
-                    reference_labels = F.pad(reference_labels, (0, 0, 0, w_pad, 0, h_pad))
-
-                reference_embeddings = reference_embeddings.view((h + h_pad) // atrous_rate, atrous_rate, 
-                                                                 (w + w_pad) // atrous_rate, atrous_rate, -1)
-                reference_labels = reference_labels.view((h + h_pad) // atrous_rate, atrous_rate, 
-                                                                 (w + w_pad) // atrous_rate, atrous_rate, -1)
-                reference_embeddings = reference_embeddings[:, 0, :, 0, :].contiguous()
-                reference_labels = reference_labels[:, 0, :, 0, :].contiguous()
-            reference_embeddings_flat = reference_embeddings.view(-1, embedding_dim)
-            reference_labels_flat = reference_labels.view(-1, obj_nums)
-        else:
-
-            for reference_embeddings, reference_labels, idx in zip(all_reference_embeddings, all_reference_labels, range(ref_num)):
-                if atrous_rate > 1:
-                    h_pad = (atrous_rate - h % atrous_rate) % atrous_rate
-                    w_pad = (atrous_rate - w % atrous_rate) % atrous_rate
-                    if h_pad > 0  or w_pad > 0:
-                        reference_embeddings = F.pad(reference_embeddings, (0, 0, 0, w_pad, 0, h_pad))
-                        reference_labels = F.pad(reference_labels, (0, 0, 0, w_pad, 0, h_pad))
-
-                    reference_embeddings = reference_embeddings.view((h + h_pad) // atrous_rate, atrous_rate, 
-                                                                     (w + w_pad) // atrous_rate, atrous_rate, -1)
-                    reference_labels = reference_labels.view((h + h_pad) // atrous_rate, atrous_rate, 
-                                                                     (w + w_pad) // atrous_rate, atrous_rate, -1)
-                    reference_embeddings = reference_embeddings[:, 0, :, 0, :].contiguous()
-                    reference_labels = reference_labels[:, 0, :, 0, :].contiguous()
-            
-
-                reference_embeddings_flat = reference_embeddings.view(-1, embedding_dim)
-                reference_labels_flat = reference_labels.view(-1, obj_nums)
-
-                all_reference_embeddings_flat.append(reference_embeddings_flat)
-                all_reference_labels_flat.append(reference_labels_flat)
-
-            reference_embeddings_flat = torch.cat(all_reference_embeddings_flat, dim=0)
-            reference_labels_flat = torch.cat(all_reference_labels_flat, dim=0)
-
-    
-    """
     query_embeddings_flat = query_embeddings.view(-1, embedding_dim)
-    
-    #all_ref_fg = torch.sum(reference_labels_flat, dim=1, keepdim=True) > 0.9
-    #reference_labels_flat = torch.masked_select(reference_labels_flat, 
-    #    all_ref_fg.expand(-1, obj_nums)).view(-1, obj_nums)
     if ref_num == 0:
         return torch.ones(1, h, w, obj_nums, 1, device=all_ref_fg.device)
-    #reference_embeddings_flat = torch.masked_select(reference_embeddings_flat, 
-    #    all_ref_fg.expand(-1, embedding_dim)).view(-1, embedding_dim)
 
     if use_float16:
         query_embeddings_flat = query_embeddings_flat.half()
         reference_embeddings_flat = reference_embeddings_flat.half()
-    """
-    reference_embeddings_flat.size() torch.Size([1, 100])
-    query_embeddings_flat.size() torch.Size([37845, 100])
-    nn_features.size() torch.Size([37845, 1])
-    Ref Frame: 00000.jpg, Time: 0.42488956451416016
-    reference_embeddings_flat.size() torch.Size([1, 100])
-    query_embeddings_flat.size() torch.Size([37845, 100])
-    nn_features.size() torch.Size([37845, 1])
-
-    """
-    #print("reference_embeddings_flat.size()",reference_embeddings_flat.size())
-    #print("query_embeddings_flat.size()",query_embeddings_flat.size())
     nn_features = _nearest_neighbor_features_per_object_in_chunks_proxy(
         all_reference_embeddings, query_embeddings_flat, n_chunks)
-    #print("nn_features.size()",nn_features.size())
+
     nn_features_reshape = nn_features.view(1, h, w, obj_nums, 1)
     nn_features_reshape = (torch.sigmoid(nn_features_reshape + dis_bias.view(1, 1, 1, -1, 1)) - 0.5) * 2
 
@@ -1305,7 +1171,6 @@ def local_matching_topk(topk_num,
           [1, height, width, n_objects, 1].
     """
     max_distance = multi_local_distance[-1]
-    #print("multi_local_distance:",multi_local_distance)
     if ori_size is None:
         height, width = prev_frame_embedding.size()[:2]
         ori_size = (height, width)
@@ -1341,11 +1206,6 @@ def local_matching_topk(topk_num,
     d_masked = torch.where(offset_masks, d_tiled, pad)
     dists, pos = torch.min(d_masked, dim=2)
     topk_dists,topk_pos= d_masked.topk(topk_num,dim=2,largest=False,sorted=True) #######
-    """
-    a=topk_dists[:,:,0,:]
-    b=topk_dists[:,:,1,:]
-    delta_top2 = b-a
-    """
 
     multi_dists = [topk_dists.permute(3,2,0,1)]  # n_objects, num_multi_local, h, w
     pos_list  = [topk_pos]
