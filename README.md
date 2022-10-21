@@ -12,6 +12,8 @@ The conference **poster** is available at [this github repo](https://github.com/
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
+- 2022.10.21: Add the robustness evaluation dataloader for other models, e.g., AOT~
+- 2022.10.1：Add the code of key implementations of this work~
 - 2022.9.25：Add the poster of this work~
 - 2022.8.27: Add presentation video and PPT for this work~
 - 2022.7.10: Add future works towards robust VOS!
@@ -92,13 +94,15 @@ A more light-weight version can be created by modified the [Dockerfile](https://
   [resnet101-deeplabv3p](https://drive.google.com/file/d/1H3yUShfPqzxSt-nHJP-zYSbbu2o_RQQu/view)
 
 
-## Training
+## Implementation
 
-* More details will be added soon.
+The key implementation of matching with adaptive-proxy-based representation is provided in [THIS FILE](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/blob/main/AOC-Net/adaptive_embedding_for_matching.py). Other implementation and training/evaluation details can refer to [PRCMVOS](https://github.com/JerryX1110/RPCMVOS) or [CFBI](https://github.com/z-x-yang/CFBI).
 
-## Inference
+The key implementation of the preliminary robust VOS benchmark evaluation is provided in [THIS FILE](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/tree/main/Robust-VOS-Benchmark).
 
-* More details will be added soon.
+Feel free to contact me if you have any problems with the implementation~
+
+
 
 * For evaluation, please use official YouTube-VOS servers ([2018 server](https://competitions.codalab.org/competitions/19544) and [2019 server](https://competitions.codalab.org/competitions/20127)), official [DAVIS toolkit](https://github.com/davisvideochallenge/davis-2017) (for Val), and official [DAVIS server](https://competitions.codalab.org/competitions/20516#learn_the_details) (for Test-dev).
 
@@ -197,10 +201,8 @@ If you find this work is useful for your research, please consider citing:
 
 **Papers with code for Semi-VOS**: <https://paperswithcode.com/task/semi-supervised-video-object-segmentation>
 
-## Q&A
-
 ## Acknowledgement ❤️
-This work is built upon CFBI. Thanks to the author of CFBI to release such a wonderful code repo for further work to build upon!
+This work is heavily built upon CFBI and RPCMVOS. Thanks to the author of CFBI to release such a wonderful code repo for further work to build upon!
 
 ## Welcome to comments and discussions!!
 Xiaohao Xu: <xxh11102019@outlook.com>
