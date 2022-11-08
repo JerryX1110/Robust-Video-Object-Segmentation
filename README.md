@@ -122,12 +122,13 @@ Feel free to contact me if you have any problems with the implementation~
 If you find this work is useful for your research, please consider citing:
 
  ```latex
-   @article{xu2022towards,
-     title={Towards Robust Video Object Segmentation with Adaptive Object Calibration},
-     author={Xu, Xiaohao and Wang, Jinglu and Ming, Xiang and Lu, Yan},
-     journal={ACM Multimedia},
-     year={2022}
-   }
+@inproceedings{xu2022towards,
+	title={Towards Robust Video Object Segmentation with Adaptive Object Calibration},
+	author={Xu, Xiaohao and Wang, Jinglu and Ming, Xiang and Lu, Yan},
+	booktitle={Proceedings of the 30th ACM International Conference on Multimedia},
+	pages={2709--2718},
+	year={2022}
+}
 ```  
 
     
