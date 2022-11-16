@@ -12,6 +12,7 @@ The conference **poster** is available at [this github repo](https://github.com/
 **This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
+- 2022.11.16: All the codes are cleaned and released ~ 
 - 2022.10.21: Add the robustness evaluation dataloader for other models, e.g., AOT~
 - 2022.10.1：Add the code of key implementations of this work~
 - 2022.9.25：Add the poster of this work~
@@ -99,6 +100,8 @@ A more light-weight version can be created by modified the [Dockerfile](https://
 The key implementation of matching with adaptive-proxy-based representation is provided in [THIS FILE](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/blob/main/AOC-Net/adaptive_embedding_for_matching.py). Other implementation and training/evaluation details can refer to [PRCMVOS](https://github.com/JerryX1110/RPCMVOS) or [CFBI](https://github.com/z-x-yang/CFBI).
 
 The key implementation of the preliminary robust VOS benchmark evaluation is provided in [THIS FILE](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/tree/main/Robust-VOS-Benchmark).
+
+The whole project code is provided in [THIS FOLDER](https://github.com/JerryX1110/Robust-Video-Object-Segmentation/tree/main/AOC-Net/complete_project).
 
 Feel free to contact me if you have any problems with the implementation~
 
