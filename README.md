@@ -9,7 +9,7 @@ The conference **poster** is available at [this github repo](https://github.com/
 
 **Qualitative results and comparisons** with previous SOTAs are available at [YouTube](https://www.youtube.com/watch?v=3F6n7tcwWkA).
 
-**This repo is a preview version. More details will be added later. Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
+Welcome to starts ⭐ & comments 💹 & collaboration 😀 !!**
 
 ```diff
 - 2022.11.16: All the codes are cleaned and released ~ 
