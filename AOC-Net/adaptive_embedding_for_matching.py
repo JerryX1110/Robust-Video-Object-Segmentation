@@ -23,12 +23,10 @@ def foreground2background(dis, obj_num):
     return bg_dis
 
 WRONG_LABEL_PADDING_DISTANCE = 5e4
+
 #############################################################GLOBAL_DIST_MAP
+
 def _pairwise_distances(x, x2, y, y2):
-    #print("x",x.size())
-    #print("x2",x2.size())
-    #print("y",y.size())
-    #print("y2",y2.size())
     """
     Computes pairwise squared l2 distances between tensors x and y.
     Args:
@@ -257,11 +255,19 @@ def _nearest_neighbor_features_per_object_in_chunks_cluster(
     centroid_all_objs=[]
     centroid_all_objs_squ=[]
     right_label_mask_opt = torch.zeros_like(right_label_mask.int())
+    
     for i in range(right_label_mask.size()[0]):
+        
+        # Step 1: Select the historical/reference embedding features of the foreground from the image backbone  with the mask
+        
         index_choice = torch.nonzero(right_label_mask[i]).squeeze(1)
         reference_embeddings_flat_cur = torch.index_select(reference_embeddings_flat,0,index_choice)
         reference_embeddings_flat_cur_np  = reference_embeddings_flat_cur.detach().cpu().numpy()
+        
+        # Step 2: Set the clustering number for the transformation from pixel-level embedding features to adaptive ones
         cluster_num = min(cluster_num,reference_embeddings_flat_cur.size()[0])
+        
+        # Step 3: Run the clustering of the pixel-level embedding so as to generate adaptive proxies (which are also the centroids of various clusters).
         if cluster_num==0:
             centroid_all_objs.append(None)
             centroid_all_objs_squ.append(None)
@@ -271,15 +277,16 @@ def _nearest_neighbor_features_per_object_in_chunks_cluster(
                 label_org = label
                 label = torch.from_numpy(label).to(reference_embeddings_flat.device)
                 centroid = torch.from_numpy(centroid).to(reference_embeddings_flat.device)
-                #centroid_avg = torch.cat([(torch.sum(torch.index_select(reference_embeddings_flat,0,torch.nonzero(torch.tensor((label==j))).to(reference_embeddings_flat.device).squeeze(1)),0)/counts[j]).unsqueeze(0) for j in range(cluster_num)],0)
                 centroid_avg = torch.cat([(torch.sum(torch.index_select(reference_embeddings_flat,0,torch.nonzero(torch.tensor((label==j))).to(reference_embeddings_flat.device).squeeze(1)),0)/(np.sum(label_org==j))).unsqueeze(0) for j in np.unique(label_org)],0)
                 centroid_all_objs.append([centroid,centroid_avg])
                 centroid_all_objs_squ.append([centroid.pow(2).sum(1),centroid_avg.pow(2).sum(1)])
             except:
-                print("CLUSTERING ERROR!")
+                # Sometimes the clustering process can not converge, then we do not add such adaptive object representation for reference.
                 centroid_all_objs.append(None)
                 centroid_all_objs_squ.append(None)
-
+    
+    # Step 4: Divide the embedding into various chunks to avoid memory explosion during further affinity matrix calculation.
+    
     all_features1 = []
     all_features2 = []
     for n in range(n_chunks):
@@ -296,17 +303,23 @@ def _nearest_neighbor_features_per_object_in_chunks_cluster(
             query_embeddings_flat_chunk = query_embeddings_flat[chunk_start:chunk_end]
         features_multi1=[]
         features_multi2=[]
+        
+        # Step 5: Calculate the affinity matrix between the adaptive proxies (centroid_all_objs_squ) and the embedding of the current frame (query_embeddings_flat_chunk).
+        
         for i in range(right_label_mask.size()[0]):
             if centroid_all_objs[i] == None:
+            
                 features_multi1.append(torch.ones((query_embeddings_flat_chunk.size()[0],1,1)).to(reference_embeddings_flat.device)* WRONG_LABEL_PADDING_DISTANCE)
                 features_multi2.append(torch.ones((query_embeddings_flat_chunk.size()[0],1,1)).to(reference_embeddings_flat.device)* WRONG_LABEL_PADDING_DISTANCE)
             else:
+            
                 features1 = _nn_features_per_object_for_chunk_cluster(
                     centroid_all_objs[i][0], centroid_all_objs_squ[i][0], query_embeddings_flat_chunk, query_square_chunk)
                 features2 = _nn_features_per_object_for_chunk_cluster(
                     centroid_all_objs[i][1], centroid_all_objs_squ[i][1], query_embeddings_flat_chunk, query_square_chunk)
                 features_multi1.append(features1)
                 features_multi2.append(features2)
+                
         features_multi1 = torch.cat(features_multi1,1).to(reference_embeddings_flat.device)
         features_multi2 = torch.cat(features_multi2,1).to(reference_embeddings_flat.device)
         all_features1.append(features_multi1)
