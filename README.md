@@ -146,7 +146,9 @@ If you find this work is useful for your research, please consider citing:
 ## Related Works in VOS
 **Semisupervised video object segmentation repo/paper link:**
 
-**DeAOT[NeurIPS 2022]**:<https://arxiv.org/pdf/2210.09782.pdf>
+**TarVis [Arxiv 2023]**:<https://arxiv.org/pdf/2301.02657.pdf>
+
+**DeAOT [NeurIPS 2022]**:<https://arxiv.org/pdf/2210.09782.pdf>
 
 **BATMAN [ECCV 2022 Oral]**:<https://arxiv.org/pdf/2208.01159.pdf>
 
