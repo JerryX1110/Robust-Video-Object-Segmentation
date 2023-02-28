@@ -148,6 +148,8 @@ If you find this work is useful for your research, please consider citing:
 
 **TarVis [Arxiv 2023]**:<https://arxiv.org/pdf/2301.02657.pdf>
 
+**LBLVOS [AAAI 2023]**:<https://arxiv.org/pdf/2212.02112.pdf>
+
 **DeAOT [NeurIPS 2022]**:<https://arxiv.org/pdf/2210.09782.pdf>
 
 **BATMAN [ECCV 2022 Oral]**:<https://arxiv.org/pdf/2208.01159.pdf>
